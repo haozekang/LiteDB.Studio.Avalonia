@@ -1,0 +1,46 @@
+<Application
+    x:Class="LiteDB.Studio.Avalonia.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+    xmlns:local="using:LiteDB.Studio.Avalonia"
+    RequestedThemeVariant="Default">
+    <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <FontFamily x:Key="MyFont">avares://LiteDB.Studio.Avalonia/Assets/Consolas-with-Yahei Nerd Font.ttf#Consolas-with-Yahei</FontFamily>
+		<FontFamily x:Key="IconFont">avares://LiteDB.Studio.Avalonia/Assets/iconfont.ttf#tanovo</FontFamily>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+		<StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
+
+        <Style Selector="TreeViewItem">
+            <!--  默认大约 MinHeight=32，可以改小  -->
+            <Setter Property="MinHeight" Value="22" />
+            <!--  上下 Padding 也可以缩小  -->
+            <Setter Property="Padding" Value="4 2 4 2" />
+        </Style>
+
+        <Style Selector="TreeViewItem HeaderedContentControl">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource MyFont}" />
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="{StaticResource MyFont}" />
+        </Style>
+        <Style Selector="AccessText">
+            <Setter Property="FontFamily" Value="{StaticResource MyFont}" />
+        </Style>
+    </Application.Styles>
+</Application>

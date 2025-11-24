@@ -1,0 +1,115 @@
+<UserControl
+    x:Class="LiteDB.Studio.Avalonia.Views.MessageView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:LiteDB.Studio.Avalonia.ViewModels"
+	xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+    d:DesignHeight="550"
+    d:DesignWidth="600"
+	MinHeight="100"
+	MinWidth="400"
+    x:DataType="vm:MessageViewModel"
+    FontSize="12"
+    Background="White"
+	mc:Ignorable="d">
+    <Design.DataContext>
+		<vm:MessageViewModel />
+    </Design.DataContext>
+	<Grid Margin="15 0 15 5">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid Margin="0 10 0 0" Grid.ColumnSpan="3">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<Image Source="/Assets/favicon.ico" Width="24"
+				   VerticalAlignment="Center"/>
+			<Label Grid.Column="1" Content="{Binding Title}" Margin="5 0 0 0" FontSize="20" VerticalAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"></Label>
+			<StackPanel Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 0 0" Orientation="Horizontal">
+				<Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=CloseDialogCommand}" VerticalContentAlignment="Center" Classes="CustomButton">
+					<Button.Styles>
+						<Style Selector="Button">
+							<Setter Property="Background" Value="Transparent" />
+						</Style>
+						<Style Selector="Button:pointerover /template/ ContentPresenter">
+							<Setter Property="Background" Value="Red" />
+							<Setter Property="Foreground" Value="White" />
+						</Style>
+						<Style Selector="Button:pressed /template/ ContentPresenter">
+							<Setter Property="Background" Value="#B4271C" />
+							<Setter Property="Foreground" Value="White" />
+						</Style>
+					</Button.Styles>
+					<Button.Content>
+						<TextBlock FontFamily="{StaticResource IconFont}" FontSize="16" Padding="4 0" VerticalAlignment="Center" Text="&#xe6a1;"></TextBlock>
+					</Button.Content>
+				</Button>
+			</StackPanel>
+		</Grid>
+
+		<TextBlock Name="txt_icon"
+				   Grid.Row="1" 
+				   Grid.Column="0" 
+				   VerticalAlignment="Center" 
+				   FontSize="55"
+				   Margin="0 5 5 0" 
+				   Text="{Binding IconText, Mode=OneWay}"
+				   Foreground="{Binding IconForeground, Mode=OneWay}"
+				   FontFamily="{StaticResource IconFont}"></TextBlock>
+		<Label Grid.Row="1" Grid.Column="1" Content="{Binding Message, Mode=OneWay}" 
+			   FontFamily="{StaticResource MyFont}" FontSize="13"
+			   VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="0 5 5 0"></Label>
+		
+		<Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0 5 0 5">
+				<Button Name="btn_ok" Margin="5 0 0 0" 
+						IsVisible="{Binding IsOkVisible}"
+						Command="{Binding OkCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Ok" VerticalAlignment="Center"></TextBlock>
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button Name="btn_cancel" Margin="5 0 0 0" 
+						IsVisible="{Binding IsCancelVisible}"
+						Command="{Binding CancelCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Cancel" VerticalAlignment="Center"></TextBlock>
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button Name="btn_yes" Margin="5 0 0 0" 
+						IsVisible="{Binding IsYesVisible}"
+						Command="{Binding YesCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Yes" VerticalAlignment="Center"></TextBlock>
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button Name="btn_no" Margin="5 0 0 0" 
+						IsVisible="{Binding IsNoVisible}"
+						Command="{Binding NoCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="No" VerticalAlignment="Center"></TextBlock>
+						</StackPanel>
+					</Button.Content>
+				</Button>
+			</StackPanel>
+		</Border>
+	</Grid>
+</UserControl>

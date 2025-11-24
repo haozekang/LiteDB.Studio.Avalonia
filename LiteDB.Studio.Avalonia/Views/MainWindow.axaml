@@ -1,0 +1,471 @@
+<Window
+    x:Class="LiteDB.Studio.Avalonia.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dto="using:LiteDB.Studio.Avalonia.Dtos"
+    xmlns:edit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:LiteDB.Studio.Avalonia.ViewModels"
+	xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+    Title="LiteDB.Studio.Avalonia"
+    d:DesignHeight="450"
+    d:DesignWidth="1024"
+    x:DataType="vm:MainWindowViewModel"
+    Background="#EAEAEA"
+    FontSize="12"
+    Icon="/Assets/favicon.ico"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+	<dialogHost:DialogHost Name="dialog" CloseOnClickAway="False" Identifier="MessageBox"
+						   OverlayBackground="Black" DialogMargin="0">
+		<Grid RowDefinitions="Auto Auto * Auto">
+			<Border
+				Grid.Row="0"
+				Grid.RowSpan="99"
+				Grid.Column="0"
+				Grid.ColumnSpan="99"
+				Background="#eaeaea"
+				IsVisible="{Binding IsBusy, Mode=OneWay}"
+				Opacity="0.5"
+				ZIndex="1" />
+			<Border
+				Grid.Row="0"
+				Grid.RowSpan="99"
+				Grid.Column="0"
+				Grid.ColumnSpan="99"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Background="#ffffff"
+				BorderBrush="#000000"
+				BorderThickness="1,1,1,1"
+				CornerRadius="5"
+				IsVisible="{Binding IsBusy, Mode=OneWay}"
+				ZIndex="2">
+				<StackPanel Margin="28">
+					<TextBlock Text="Loading..." />
+				</StackPanel>
+			</Border>
+			<Menu IsVisible="False">
+				<MenuItem Header="File">
+					<MenuItem Header="History">
+						<MenuItem.Icon>
+							<Svg Path="/Assets/files.svg" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="-" />
+					<MenuItem Command="{Binding ShowConnectionViewCommand}" Header="Connect">
+						<MenuItem.Icon>
+							<Svg Path="/Assets/database.svg" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Disconnect">
+						<MenuItem.Icon>
+							<Svg Path="/Assets/database.svg" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="-" />
+					<CheckBox Margin="-28,0,0,0" Content="Load last database on startup" />
+				</MenuItem>
+				<MenuItem Header="Edit">
+					<MenuItem Header="Refresh" />
+					<MenuItem Header="-" />
+					<MenuItem Header="Run" />
+					<MenuItem Header="-" />
+					<MenuItem Header="Load" />
+					<MenuItem Header="Save" />
+					<MenuItem Header="-" />
+					<MenuItem Header="Begin" />
+					<MenuItem Header="Commit" />
+					<MenuItem Header="Rollback" />
+					<MenuItem Header="-" />
+					<MenuItem Header="Checkpoint" />
+					<MenuItem Header="-" />
+					<MenuItem Header="Debug" />
+					<MenuItem Header="-" />
+					<MenuItem Header="Load last db" />
+				</MenuItem>
+				<MenuItem Header="About">
+					<MenuItem Header="About" />
+				</MenuItem>
+			</Menu>
+			<StackPanel
+				Grid.Row="1"
+				Height="24"
+				Margin="5,4,5,5"
+				Orientation="Horizontal">
+				<Button
+					Name="btn_history"
+					Padding="2"
+					Background="Transparent"
+					Click="btn_history_Click">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/history.svg" />
+							<Svg Path="/Assets/arrow_down.svg" />
+						</StackPanel>
+					</Button.Content>
+					<Button.Flyout>
+						<MenuFlyout ItemsSource="{Binding HistoryItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+					</Button.Flyout>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Name="btn_connect"
+					Height="24"
+					Margin="0,0,0,0"
+					Padding="2"
+					Background="Transparent"
+					IsVisible="{Binding !IsDbConnected, Mode=OneWay}"
+					Command="{Binding ShowConnectionViewCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="20" Path="/Assets/database.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Connect" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button
+					Name="btn_disconnect"
+					Margin="0,0,0,0"
+					Padding="2"
+					Background="Transparent"
+					Command="{Binding DisconnectDbCommand}"
+					IsVisible="{Binding IsDbConnected, Mode=OneWay}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/disconnect.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Disconnect" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding RefreshDbCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/refresh.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Refresh" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Background="Transparent"
+					Command="{Binding CreateTableConsoleCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/add.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Console" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Background="Transparent"
+					Command="{Binding RunSqlCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/start.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Run" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding LoadSqlCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/sql_load.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Load" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding SaveSqlCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/save.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Save" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding BeginCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/abb_begin.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Begin" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding CommitCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/commit.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Commit" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding RollbackCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/rollback.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Rollback" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding CheckpointCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/window.svg" />
+							<TextBlock VerticalAlignment="Center" Text="Checkpoint" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Command="{Binding DebugCommand}"
+					Background="Transparent">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/debug.svg" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Background="Transparent"
+					Command="{Binding OpenLastDbFilenameCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/load_last.svg" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+				<Line
+					Margin="2,0"
+					VerticalAlignment="Center"
+					Stroke="#c0c0c0"
+					StartPoint="0 0"
+					EndPoint="0 16" />
+				<Button
+					Margin="0,0,0,0"
+					Padding="2"
+					Background="Transparent"
+					Command="{Binding ShowAboutCommand}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<Svg Width="24" Path="/Assets/about.svg" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+			</StackPanel>
+			<StackPanel
+				Grid.Row="1"
+				Height="24"
+				Margin="5,4,5,5"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				Orientation="Horizontal">
+				<CheckBox Padding="2,0,0,0"
+						  IsChecked="{Binding IsConnOnAppStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" FontSize="12">Load last database on startup</CheckBox>
+			</StackPanel>
+			<Grid
+				Grid.Row="2"
+				ColumnDefinitions="3* 5 8*"
+				RowDefinitions="3* 5 5*">
+				<TreeView
+					Grid.Row="0"
+					Grid.RowSpan="3"
+					Grid.Column="0"
+					Margin="0,0,0,0"
+					BorderBrush="#CFCFCF"
+					BorderThickness="0,1,1,0"
+					ItemsSource="{Binding DbItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+				<GridSplitter
+					Grid.Row="0"
+					Grid.RowSpan="3"
+					Grid.Column="1"
+					Width="5"
+					Margin="1,0,0,0" />
+				<Grid
+					Grid.Row="0"
+					Grid.Column="2"
+					Margin="0,0,0,0"
+					RowDefinitions="Auto *">
+					<TabControl
+						Name="tab_querys"
+						Grid.Row="1"
+						Margin="0,0,0,0"
+						Padding="0,0,0,0"
+						BorderBrush="#CFCFCF"
+						BorderThickness="1,1,0,1"
+						SelectedItem="{Binding ActiveTabItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				</Grid>
+				<GridSplitter
+					Grid.Row="1"
+					Grid.Column="2"
+					Height="5"
+					Margin="0,1,0,0" />
+				<TabControl
+					Grid.Row="2"
+					Grid.Column="2"
+					Margin="0,0,0,0"
+					Padding="0,0,0,0"
+					BorderBrush="#CFCFCF"
+					BorderThickness="1,1,0,0">
+					<TabItem MinHeight="26" Padding="8,0">
+						<TabItem.Header>
+							<TextBlock FontSize="12" Text="Grid" />
+						</TabItem.Header>
+						<DataGrid
+							Name="dg"
+							AutoGenerateColumns="False"
+							Background="Transparent"
+							BorderBrush="#CFCFCF"
+							BorderThickness="0,1,0,0"
+							FontFamily="Consolas"
+							FontSize="12"
+							CellEditEnded="DataGrid_OnCellEditEnded"
+							ItemsSource="{Binding GridItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							RowHeight="20" />
+					</TabItem>
+					<TabItem MinHeight="26" Padding="8,0">
+						<TabItem.Header>
+							<TextBlock FontSize="12" Text="Text" />
+						</TabItem.Header>
+						<edit:TextEditor
+							Name="txt_result"
+							Padding="2,2,2,0"
+							BorderBrush="#CFCFCF"
+							BorderThickness="0,1,0,0"
+							FontFamily="{StaticResource MyFont}"
+							SyntaxHighlighting="Json" />
+					</TabItem>
+					<TabItem MinHeight="26" Padding="8,0">
+						<TabItem.Header>
+							<TextBlock FontSize="12" Text="Parameters" />
+						</TabItem.Header>
+						<edit:TextEditor
+							Name="txt_parameters"
+							Padding="2,2,2,0"
+							BorderBrush="#CFCFCF"
+							BorderThickness="0,1,0,0"
+							FontFamily="Consolas"
+							Text="" />
+					</TabItem>
+				</TabControl>
+			</Grid>
+			<Border
+				Grid.Row="3"
+				BorderBrush="#CFCFCF"
+				BorderThickness="0,1,0,0">
+				<Grid ColumnDefinitions="* Auto">
+					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+						<TextBlock Margin="4,0,0,0" VerticalAlignment="Center">
+							<Run Text="Line:" />
+							<Run Text="{Binding LineNum, Mode=OneWay}" />
+							<Run Text="-" />
+							<Run Text="Column:" />
+							<Run Text="{Binding ColumnNum, Mode=OneWay}" />
+						</TextBlock>
+					</StackPanel>
+					<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+						<TextBlock
+							Margin="0,0,15,0"
+							VerticalAlignment="Center"
+							IsVisible="{Binding ResultCountIsVisible, Mode=OneWay}"
+							Text="{Binding ResultCountText, Mode=OneWay}" />
+						<ProgressBar
+							Width="140"
+							Height="20"
+							MinWidth="140"
+							Margin="2,2"
+							VerticalAlignment="Center" />
+						<TextBlock Margin="4,0,4,0" VerticalAlignment="Center">
+							<Run Text="{Binding ResultElapsedText, Mode=OneWay}" />
+						</TextBlock>
+					</StackPanel>
+				</Grid>
+			</Border>
+		</Grid>
+	</dialogHost:DialogHost>
+</Window>

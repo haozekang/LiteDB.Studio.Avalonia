@@ -1,0 +1,70 @@
+<UserControl
+    x:Class="LiteDB.Studio.Avalonia.Views.AboutView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:LiteDB.Studio.Avalonia.ViewModels"
+    d:DesignHeight="550"
+    d:DesignWidth="600"
+    x:DataType="vm:AboutViewModel"
+    FontSize="12"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:AboutViewModel />
+    </Design.DataContext>
+    <Grid
+        Margin="10,10"
+        HorizontalAlignment="Stretch"
+        RowDefinitions="Auto Auto Auto Auto Auto Auto Auto Auto Auto Auto Auto Auto *">
+        <StackPanel Grid.Row="0">
+            <Svg Height="60" Margin="0 20 0 0" Path="/Assets/logo_litedb.svg"/>
+            <TextBlock Text="LiteDB.Studio.Avalonia" HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Margin="0 15"
+                       FontSize="28"/>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Margin="0 0 0 20"
+                   TextWrapping="Wrap"
+                   Text="This is the Avalonia version of LiteDB.Studio. Originally, LiteDB is an embedded file database for cross-platform use, but it only provides a management tool for Windows. Based on the original LiteDB.Studio and Avalonia technology, we have refactored the code to develop a cross-platform version, so now you can read LiteDB databases across platforms!" />
+        <TextBlock Grid.Row="2" Text="Author" />
+        <Border
+            Grid.Row="3"
+            Margin="0,4,0,0"
+            BorderBrush="#CFCFCF"
+            BorderThickness="1,1,1,1"
+            CornerRadius="5">
+            <StackPanel Margin="18,5" Orientation="Horizontal">
+                <TextBlock Text="{Binding Author}"></TextBlock>
+            </StackPanel>
+        </Border>
+        <TextBlock
+            Grid.Row="4"
+            Margin="0,10,0,0"
+            Text="Email" />
+        <Border
+            Grid.Row="5"
+            Margin="0,4,0,0"
+            BorderBrush="#CFCFCF"
+            BorderThickness="1,1,1,1"
+            CornerRadius="5">
+            <StackPanel Margin="18,5" Orientation="Horizontal">
+                <TextBlock Text="{Binding Email}"></TextBlock>
+            </StackPanel>
+        </Border>
+        <TextBlock
+            Grid.Row="6"
+            Margin="0,10,0,0"
+            Text="Version" />
+        <Border
+            Grid.Row="7"
+            Margin="0,4,0,0"
+            BorderBrush="#CFCFCF"
+            BorderThickness="1,1,1,1"
+            CornerRadius="5">
+            <StackPanel Margin="18,5" Orientation="Horizontal">
+                <TextBlock Text="{Binding Version}"></TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

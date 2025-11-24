@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="SQL" extensions=".sql" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<!-- 颜色定义 -->
+	<Color name="Digits" foreground="Black" fontWeight="bold" />
+	<Color name="String" foreground="Red" />
+	<Color name="Comment" foreground="Green" />
+	<Color name="Keyword" foreground="Blue" />
+	<Color name="Operator" foreground="Gray" />
+	<Color name="Function" foreground="Fuchsia" />
+
+	<RuleSet ignoreCase="true">
+
+		<!-- 字符串 -->
+		<Span color="String" multiline="false">
+			<Begin>'</Begin>
+			<End>'</End>
+		</Span>
+		<Span color="String" multiline="false">
+			<Begin>"</Begin>
+			<End>"</End>
+		</Span>
+
+		<!-- 单行注释 -->
+		<Span color="Comment" multiline="false">
+			<Begin>--</Begin>
+		</Span>
+
+		<!-- 数字 -->
+		<Span color="Digits" multiline="false">
+			<Begin>\b(0x[0-9A-Fa-f]+([uUlL]{0,2})?|(\d+(\.\d+)?([eE][+-]?\d+)?[fFmMdD]?([uUlL]{0,2})?))\b</Begin>
+			<End></End>
+		</Span>
+
+		<!-- 操作符/比较符 -->
+		<Keywords color="Operator">
+			<Word>$</Word>
+			<Word>@</Word>
+			<Word>AND</Word>
+			<Word>OR</Word>
+			<Word>LIKE</Word>
+			<Word>BETWEEN</Word>
+			<Word>IN</Word>
+			<Word>+</Word>
+			<Word>-</Word>
+			<Word>*</Word>
+			<Word>/</Word>
+			<Word>=</Word>
+			<Word>&lt;</Word>
+			<Word>&gt;</Word>
+			<Word>&lt;=</Word>
+			<Word>&gt;=</Word>
+			<Word>%</Word>
+			<Word>;</Word>
+		</Keywords>
+
+		<!-- 值关键字 -->
+		<Keywords color="Operator">
+			<Word>TRUE</Word>
+			<Word>FALSE</Word>
+			<Word>NULL</Word>
+		</Keywords>
+
+		<!-- SQL 主关键字 -->
+		<Keywords color="Keyword">
+			<Word>BEGIN</Word>
+			<Word>COMMIT</Word>
+			<Word>ROLLBACK</Word>
+			<Word>TRANS</Word>
+			<Word>TRANSACTION</Word>
+			<Word>ANALYZE</Word>
+			<Word>CHECKPOINT</Word>
+			<Word>REBUILD</Word>
+			<Word>PRAGMA</Word>
+			<Word>CREATE</Word>
+			<Word>INDEX</Word>
+			<Word>ON</Word>
+			<Word>UNIQUE</Word>
+			<Word>DELETE</Word>
+			<Word>DROP</Word>
+			<Word>COLLECTION</Word>
+			<Word>RENAME</Word>
+			<Word>TO</Word>
+			<Word>INSERT</Word>
+			<Word>INTO</Word>
+			<Word>VALUES</Word>
+			<Word>SELECT</Word>
+			<Word>ALL</Word>
+			<Word>FULL</Word>
+			<Word>FROM</Word>
+			<Word>WHERE</Word>
+			<Word>INCLUDE</Word>
+			<Word>GROUP</Word>
+			<Word>ORDER</Word>
+			<Word>BY</Word>
+			<Word>AS</Word>
+			<Word>ASC</Word>
+			<Word>DESC</Word>
+			<Word>HAVING</Word>
+			<Word>LIMIT</Word>
+			<Word>OFFSET</Word>
+			<Word>FOR</Word>
+			<Word>SET</Word>
+			<Word>EXPLAIN</Word>
+			<Word>UPDATE</Word>
+			<Word>REPLACE</Word>
+			<Word>VACUUM</Word>
+			<Word>CHECK</Word>
+			<Word>MAP</Word>
+			<Word>FILTER</Word>
+			<Word>SORT</Word>
+		</Keywords>
+
+		<!-- SQL 函数 / 方法 -->
+		<Keywords color="Function">
+			<Word>USER_VERSION</Word>
+			<Word>COLLATION</Word>
+			<Word>TIMEOUT</Word>
+			<Word>LIMIT_SIZE</Word>
+			<Word>UTC_DATE</Word>
+			<Word>CHECKPOINT</Word>
+			<Word>COUNT</Word>
+			<Word>MIN</Word>
+			<Word>MAX</Word>
+			<Word>FIRST</Word>
+			<Word>LAST</Word>
+			<Word>AVG</Word>
+			<Word>SUM</Word>
+			<Word>ANY</Word>
+			<Word>JOIN</Word>
+			<Word>MINVALUE</Word>
+			<Word>OBJECTID</Word>
+			<Word>GUID</Word>
+			<Word>NOW</Word>
+			<Word>NOW_UTC</Word>
+			<Word>TODAY</Word>
+			<Word>MAXVALUE</Word>
+			<Word>INT32</Word>
+			<Word>INT</Word>
+			<Word>INT64</Word>
+			<Word>LONG</Word>
+			<Word>DOUBLE</Word>
+			<Word>DECIMAL</Word>
+			<Word>STRING</Word>
+			<Word>ARRAY</Word>
+			<Word>BINARY</Word>
+			<Word>BOOLEAN</Word>
+			<Word>BOOL</Word>
+			<Word>DATETIME</Word>
+			<Word>DATETIME_UTC</Word>
+			<Word>DATE</Word>
+			<Word>DATE_UTC</Word>
+			<Word>IS_MINVALUE</Word>
+			<Word>IS_NULL</Word>
+			<Word>IS_INT32</Word>
+			<Word>IS_INT</Word>
+			<Word>IS_INT64</Word>
+			<Word>IS_LONG</Word>
+			<Word>IS_DOUBLE</Word>
+			<Word>IS_DECIMAL</Word>
+			<Word>IS_NUMBER</Word>
+			<Word>IS_STRING</Word>
+			<Word>IS_DOCUMENT</Word>
+			<Word>IS_ARRAY</Word>
+			<Word>IS_BINARY</Word>
+			<Word>IS_OBJECTID</Word>
+			<Word>IS_GUID</Word>
+			<Word>IS_BOOLEAN</Word>
+			<Word>IS_BOOL</Word>
+			<Word>IS_DATETIME</Word>
+			<Word>IS_DATE</Word>
+			<Word>IS_MAXVALUE</Word>
+			<Word>YEAR</Word>
+			<Word>MONTH</Word>
+			<Word>DAY</Word>
+			<Word>HOUR</Word>
+			<Word>MINUTE</Word>
+			<Word>SECOND</Word>
+			<Word>DATEADD</Word>
+			<Word>DATEDIFF</Word>
+			<Word>TO_LOCAL</Word>
+			<Word>TO_UTC</Word>
+			<Word>ABS</Word>
+			<Word>ROUND</Word>
+			<Word>POW</Word>
+			<Word>JSON</Word>
+			<Word>EXTEND</Word>
+			<Word>ITEMS</Word>
+			<Word>CONCAT</Word>
+			<Word>RAW_ID</Word>
+			<Word>KEYS</Word>
+			<Word>OID_CREATIONTIME</Word>
+			<Word>IIF</Word>
+			<Word>COALESCE</Word>
+			<Word>LENGTH</Word>
+			<Word>TOP</Word>
+			<Word>UNION</Word>
+			<Word>EXCEPT</Word>
+			<Word>DISTINCT</Word>
+			<Word>LOWER</Word>
+			<Word>UPPER</Word>
+			<Word>LTRIM</Word>
+			<Word>RTRIM</Word>
+			<Word>TRIM</Word>
+			<Word>INDEXOF</Word>
+			<Word>SUBSTRING</Word>
+			<Word>REPLACE</Word>
+			<Word>LPAD</Word>
+			<Word>RPAD</Word>
+			<Word>SPLIT</Word>
+			<Word>FORMAT</Word>
+			<Word>JOIN</Word>
+			<Word>IS_MATCH</Word>
+			<Word>MATCH</Word>
+		</Keywords>
+
+	</RuleSet>
+</SyntaxDefinition>
