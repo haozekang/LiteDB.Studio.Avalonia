@@ -1,0 +1,13 @@
+bin/
+obj/
+packages/
+.vs/
+.svn/pristine
+*.suo
+*.orig
+*.bat
+*.v11
+*.v12
+*.suo
+*.user
+*.suo
